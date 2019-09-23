@@ -15,6 +15,10 @@ describe Oystercard do
     expect(subject.balance).to eq 10
   end
 
+  it 'has an empty list of journeys when initialized' do
+    expect(subject.journeys).to eq []
+  end
+
   describe '#top_up' do
     it "has a maximum value" do
       maximum_balance = Oystercard::MAXIMUM_BALANCE
@@ -48,7 +52,8 @@ describe Oystercard do
     it 'stores the station when you touch in' do
       subject.top_up(50)
       subject.touch_in(:station)
-      expect(subject.stations).to eq [:station]
+      subject.touch_out(:station)
+      expect(subject.journeys).to eq [ {:entrance_station => :station,:exit_station => :station} ]
     end
 
     it "touching in deducts the minimum value" do
@@ -67,7 +72,7 @@ describe Oystercard do
     it "touch out stops the journey " do
       subject.top_up(50)
       subject.touch_in(:station)
-      subject.touch_out
+      subject.touch_out(:station)
       expect(subject.in_journey?).to eq nil
     end
   end
