@@ -23,7 +23,8 @@ Tested software is easier to change because you can tell when it's broken just b
 I can build with objects
 Most code in the world is structured in small pieces called objects. This is done because it is easier to change than having everything in one place.
 Weekly challenge user stories
-Here are the user stories you will be working on for this project:
+
+### Here are the user stories you will be working on for this project: ###
 
 **In order to use public transport**
 As a customer
