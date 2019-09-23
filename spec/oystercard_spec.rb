@@ -33,7 +33,7 @@ describe Oystercard do
 
   describe "#in_journey?" do
     it 'starts off false' do
-      expect(subject.in_journey?).to eq false
+      expect(subject.in_journey?).to eq nil
     end
   end
 
@@ -68,7 +68,7 @@ describe Oystercard do
       subject.top_up(50)
       subject.touch_in(:station)
       subject.touch_out
-      expect(subject.in_journey?).to eq false
+      expect(subject.in_journey?).to eq nil
     end
   end
 
