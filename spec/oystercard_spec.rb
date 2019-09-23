@@ -23,14 +23,48 @@ describe Oystercard do
     end
   end
 
-  describe "#deduct" do
-    it "deducts from the balance" do
-      subject.top_up(10)
-      subject.deduct(5)
-      expect(subject.balance).to eq 5
+  # describe "#deduct" do
+  #   it "deducts from the balance" do
+  #     subject.top_up(10)
+  #     subject.deduct(5)
+  #     expect(subject.balance).to eq 5
+  #   end
+  # end
+
+  describe "#in_journey?" do
+    it 'starts off false' do
+      expect(subject.in_journey?).to eq false
     end
   end
 
+  describe '#touch_in' do
+
+    it "touch in activates the journey " do
+      subject.top_up(50)
+      subject.touch_in
+      expect(subject.in_journey?).to eq true
+    end
+
+    it "touching in deducts the minimum value" do
+      subject.top_up(50)
+      expect{subject.touch_in}.to change{subject.balance}.by(-Oystercard::MINIMUM_BALANCE)
+    end
+
+    it "throws and error if you try and touch in with an amount less than 1" do
+      message = "balance too low"
+      expect{subject.touch_in}.to raise_error message
+    end
+
+  end
+
+  describe '#touch_out' do
+    it "touch out stops the journey " do
+      subject.top_up(50)
+      subject.touch_in
+      subject.touch_out
+      expect(subject.in_journey?).to eq false
+    end
+  end
 
 
 
