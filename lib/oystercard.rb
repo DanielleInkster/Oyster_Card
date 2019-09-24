@@ -44,6 +44,7 @@ class Oystercard
 
     def end_journey
       @entrance_station = nil
+      @exit_station = nil
     end
 
     def deduct(amount)
