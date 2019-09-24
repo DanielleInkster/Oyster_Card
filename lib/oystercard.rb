@@ -1,8 +1,8 @@
-require 'station'
+require_relative 'station'
 
 class Oystercard
 
-  attr_reader :balance, :journeys, :entrance_station
+  attr_reader :balance, :journeys, :entrance_station, :exit_station, :journey
   MAXIMUM_BALANCE = 90
   MINIMUM_BALANCE = 1
 
@@ -27,15 +27,24 @@ class Oystercard
   end
 
   def touch_out(station)
-    journey = {
-      :entrance_station => entrance_station,
-      :exit_station => station,
-    }
-    @entrance_station = nil
-    @journeys.push(journey)
+    @exit_station = station
+    make_journey
+    end_journey
   end
 
   private
+
+    def make_journey
+      @journey = {
+        :entrance_station => entrance_station,
+        :exit_station => exit_station,
+      }
+      @journeys.push(journey)
+    end
+
+    def end_journey
+      @entrance_station = nil
+    end
 
     def deduct(amount)
       @balance -= amount

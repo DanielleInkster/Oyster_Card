@@ -75,6 +75,13 @@ describe Oystercard do
       subject.touch_out(:station)
       expect(subject.in_journey?).to eq nil
     end
+
+    it 'stores a journey' do
+      subject.top_up(50)
+      subject.touch_in(:station)
+      subject.touch_out(:station)
+      expect(subject.journeys).to include({:entrance_station=>:station, :exit_station=>:station})
+    end
   end
 
 
