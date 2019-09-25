@@ -6,7 +6,7 @@ class Oystercard
   attr_accessor :balance, :journeys, :entrance_station, :exit_station, :journey
   MAXIMUM_BALANCE = 90
   MINIMUM_BALANCE = 1
-  PENALTY_FARE = 10
+  PENALTY_FARE = 6
 
   def initialize
     @balance = 0
