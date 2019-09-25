@@ -45,11 +45,12 @@ describe Oystercard do
 
     it "touching in deducts the minimum value" do
       subject.top_up(50)
+      allow(subject).to receive(:penalty_fare_in).and_return(:true)
       expect{subject.touch_in(:station)}.to change{subject.balance}.by(-Oystercard::MINIMUM_BALANCE)
     end
 
     it "throws and error if you try and touch in with an amount less than 1" do
-      message = "balance too low"
+      message = "Balance too low"
       expect{subject.touch_in(:station)}.to raise_error message
     end
 
