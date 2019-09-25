@@ -49,13 +49,6 @@ describe Oystercard do
       expect(subject.in_journey?).to eq true
     end
 
-    it 'stores the station when you touch in' do
-      subject.top_up(50)
-      subject.touch_in(:station)
-      subject.touch_out(:station)
-      expect(subject.journeys).to eq [ {:entrance_station => :station,:exit_station => :station} ]
-    end
-
     it "touching in deducts the minimum value" do
       subject.top_up(50)
       expect{subject.touch_in(:station)}.to change{subject.balance}.by(-Oystercard::MINIMUM_BALANCE)
@@ -83,9 +76,4 @@ describe Oystercard do
       expect(subject.journeys).to include({:entrance_station=>:station, :exit_station=>:station})
     end
   end
-
-
-
-
-
 end
