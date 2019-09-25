@@ -3,7 +3,7 @@ require_relative 'journey'
 
 class Oystercard
 
-  attr_accessor :balance, :journeys, :entrance_station, :exit_station, :journey
+  attr_accessor :balance, :journeys, :entrance_station, :exit_station, :journey, :travelling
   MAXIMUM_BALANCE = 90
   MINIMUM_BALANCE = 1
   PENALTY_FARE = 6
@@ -11,7 +11,7 @@ class Oystercard
   def initialize
     @balance = 0
     @journeys = []
-    @travelling = nil
+    @travelling = false
   end
 
   def top_up(amount)
@@ -24,14 +24,14 @@ class Oystercard
   end
 
   def touch_in(station)
-    penalty_fare_in
+    fail "balance too low" if @balance < MINIMUM_BALANCE
     deduct(MINIMUM_BALANCE)
     @entrance_station = station
     @travelling = true
   end
 
   def touch_out(station)
-    penalty_fare_out
+    @exit_station = station
     make_journey
     end_journey
   end

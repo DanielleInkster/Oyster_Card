@@ -35,12 +35,6 @@ describe Oystercard do
   #   end
   # end
 
-  describe "#in_journey?" do
-    it 'starts off false' do
-      expect(subject.in_journey?).to eq nil
-    end
-  end
-
   describe '#touch_in' do
 
     it "touch in activates the journey " do
