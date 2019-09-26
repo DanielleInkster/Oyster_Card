@@ -40,20 +40,13 @@ describe Oystercard do
     it "touch in activates the journey " do
       subject.top_up(50)
       subject.touch_in(:station)
-      expect(subject.in_journey?).to eq true
-    end
-
-    it "touching in deducts the minimum value" do
-      subject.top_up(50)
-      allow(subject).to receive(:penalty_fare_in).and_return(:true)
-      expect{subject.touch_in(:station)}.to change{subject.balance}.by(-Oystercard::MINIMUM_BALANCE)
+      expect(subject.travelling).to eq true
     end
 
     it "throws and error if you try and touch in with an amount less than 1" do
       message = "Balance too low"
       expect{subject.touch_in(:station)}.to raise_error message
     end
-
   end
 
   describe '#touch_out' do
@@ -61,14 +54,20 @@ describe Oystercard do
       subject.top_up(50)
       subject.touch_in(:station)
       subject.touch_out(:station)
-      expect(subject.in_journey?).to eq nil
+      expect(subject.travelling).to eq false
     end
 
-    it 'stores a journey' do
+    it "touching in deducts the minimum value" do
       subject.top_up(50)
       subject.touch_in(:station)
-      subject.touch_out(:station)
-      expect(subject.journeys).to include({:entrance_station=>:station, :exit_station=>:station})
+      expect{subject.touch_out(:station)}.to change{subject.balance}.by(-Oystercard::MINIMUM_BALANCE)
     end
+
+    # it 'stores a journey' do
+    #   subject.top_up(50)
+    #   subject.touch_in(:station)
+    #   subject.touch_out(:station)
+    #   expect(subject.journeys).to include({:entrance_station=>:station, :exit_station=>:station})
+    # end
   end
 end
