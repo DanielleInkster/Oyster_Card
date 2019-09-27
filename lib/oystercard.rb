@@ -1,5 +1,5 @@
-require'station'
-require 'journey'
+require_relative 'station'
+require_relative 'journey'
 
 class Oystercard
 
@@ -28,20 +28,21 @@ class Oystercard
   end
 
   def touch_out(station)
-    deduct(MINIMUM_BALANCE)
+    deduct(journey.fare)
     @journey.exit_station = station
     make_journey
     end_journey
+    puts @journeys
   end
 
   private
 
     def make_journey
-      journey = {
+      trip = {
         :entry_station => @journey.entry_station,
         :exit_station => @journey.exit_station,
       }
-      @journeys.push(journey)
+      @journeys.push(trip)
     end
 
     def end_journey

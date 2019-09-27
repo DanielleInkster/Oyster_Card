@@ -47,6 +47,13 @@ describe Oystercard do
       message = "Balance too low"
       expect{subject.touch_in(:station)}.to raise_error message
     end
+
+    it "touching in twice deducts the penalty fare" do
+      subject.top_up(50)
+      subject.touch_in(:station)
+      subject.touch_in(:station)
+      expect{subject.touch_out(:station)}.to change{subject.balance}.by(-Journey::PENALTY_FARE)
+    end
   end
 
   describe '#touch_out' do
@@ -57,10 +64,16 @@ describe Oystercard do
       expect(subject.travelling).to eq false
     end
 
-    it "touching in deducts the minimum value" do
+    it "touching out deducts the minimum value" do
       subject.top_up(50)
       subject.touch_in(:station)
       expect{subject.touch_out(:station)}.to change{subject.balance}.by(-Oystercard::MINIMUM_BALANCE)
+    end
+
+    it "touching out twice deducts the penalty fare" do
+      subject.top_up(50)
+      subject.touch_out(:station)
+      expect{subject.touch_out(:station)}.to change{subject.balance}.by(-Journey::PENALTY_FARE)
     end
 
     # it 'stores a journey' do
