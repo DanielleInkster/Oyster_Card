@@ -7,20 +7,21 @@ class Journey
 
   def initialize(entry = nil)
     @entry_station = entry
+    @exit_station = nil
   end
 
   def finish(station)
     @exit_station = station
-    self
   end
 
     def fare
-     penalty? ? (Oystercard::MINIMUM_BALANCE): PENALTY_CHARGE
+      puts penalty?
+     penalty? ?  PENALTY_FARE : (Oystercard::MINIMUM_BALANCE) 
     end
 
   private
 
   def penalty?
-    (!entry_station || !exit_station) 
+    @entry_station == nil || @exit_station == nil
   end
 end

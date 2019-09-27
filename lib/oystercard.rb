@@ -22,14 +22,17 @@ class Oystercard
  
   def touch_in(station)
     fail "Balance too low" if @balance < MINIMUM_BALANCE
-    @journey = Journey.new
+    if travelling == true
+      deduct(@journey.fare)
+      end_journey
+    end
     @journey.entry_station = station
     @travelling = true
   end
 
   def touch_out(station)
-    deduct(journey.fare)
     @journey.exit_station = station
+    deduct(@journey.fare)
     make_journey
     end_journey
     puts @journeys
@@ -46,8 +49,8 @@ class Oystercard
     end
 
     def end_journey
-      @entry_station = nil
-      @exit_station = nil
+      @journey.entry_station = nil
+      @journey.exit_station = nil
       @travelling = false
     end
 

@@ -51,8 +51,7 @@ describe Oystercard do
     it "touching in twice deducts the penalty fare" do
       subject.top_up(50)
       subject.touch_in(:station)
-      subject.touch_in(:station)
-      expect{subject.touch_out(:station)}.to change{subject.balance}.by(-Journey::PENALTY_FARE)
+      expect{subject.touch_in(:station)}.to change{subject.balance}.by(-Journey::PENALTY_FARE)
     end
   end
 
@@ -72,6 +71,7 @@ describe Oystercard do
 
     it "touching out twice deducts the penalty fare" do
       subject.top_up(50)
+      subject.touch_in(:station)
       subject.touch_out(:station)
       expect{subject.touch_out(:station)}.to change{subject.balance}.by(-Journey::PENALTY_FARE)
     end
